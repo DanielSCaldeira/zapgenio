@@ -1,0 +1,1 @@
+# vetor_util.py
