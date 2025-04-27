@@ -12,9 +12,11 @@ if not database_url:
     raise ValueError("A variável de ambiente DATABASE_URL não foi definida.")
 
 print(f"Conectando ao banco de dados em: {database_url}")
+
 engine = create_engine(database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
+from models import *
 
 def get_db():
     db = SessionLocal()

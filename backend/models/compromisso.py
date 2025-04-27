@@ -1,10 +1,8 @@
-from backend.models.empresa import Empresa
+from models import Base
+from models.empresa import Empresa
 from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
-
-Base = declarative_base()
 
 class Compromisso(Base):
     __tablename__ = 'compromissos'
@@ -18,4 +16,4 @@ class Compromisso(Base):
     arquivo_ics = Column(Text)
     criado_em = Column(TIMESTAMP, server_default=func.now())
 
-    empresa = relationship(Empresa)
+    # empresa = relationship(Empresa)

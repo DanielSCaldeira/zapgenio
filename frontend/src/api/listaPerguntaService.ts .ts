@@ -2,17 +2,18 @@
 
 import axiosInstance from './axiosInstance';
 
-interface PerguntaResposta {
-  id: number; 
+export interface PerguntaResposta {
+  id: number;
   pergunta: string;
   resposta: string;
 }
 
-// Tipos TypeScript para listas de perguntas
 export interface ListaPergunta {
-  id: number;
-  nome: string;
+  nome_lista: string;
+  descricao: string;
+  id_empresa: number;
   perguntas_respostas: PerguntaResposta[];
+  id: number;
 }
 
 // Função para buscar todas as listas de perguntas

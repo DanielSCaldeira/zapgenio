@@ -3,7 +3,6 @@ from pydantic import BaseModel
 class PerguntaRespostaBase(BaseModel):
     pergunta: str
     resposta: str
-    lista_pergunta_id: int
 
 class PerguntaRespostaCreate(PerguntaRespostaBase):
     pass

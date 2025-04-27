@@ -1,4 +1,8 @@
 # api/main.py
+import sys
+sys.path.append('C:/git/zapgenio/backend') 
+import uvicorn
+
 from fastapi import FastAPI
 from api.routes import compromisso_router, empresa_router, lista_pergunta_router, pergunta_resposta_router, usuario_router, vetor_router 
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,3 +30,5 @@ app.include_router(lista_pergunta_router.router, prefix="/listas-perguntas", tag
 app.include_router(pergunta_resposta_router.router, prefix="/perguntas-respostas", tags=["Perguntas e Respostas"])
 app.include_router(vetor_router.router, prefix="/vetores", tags=["Vetores"])
 
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

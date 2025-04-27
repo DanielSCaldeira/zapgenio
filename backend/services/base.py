@@ -5,6 +5,9 @@ class BaseService:
     def __init__(self, model):
         self.model = model
 
+    def list(self):
+        return self.db.query(self.model).all()
+
     def create(self, db: Session, obj_in: dict):
         db_obj = self.model(**obj_in)
         db.add(db_obj)

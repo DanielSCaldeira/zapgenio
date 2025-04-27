@@ -1,0 +1,14 @@
+{
+    "configurations": [
+      {
+        "type": "debugpy",
+        "request": "launch",
+        "name": "Launch FastAPI Backend",
+        "program": "${workspaceFolder}/backend/api/main.py",
+        "args": [
+          "--reload"
+        ],
+        "envFile": "${workspaceFolder}/backend/.env"
+      }
+    ]
+  }

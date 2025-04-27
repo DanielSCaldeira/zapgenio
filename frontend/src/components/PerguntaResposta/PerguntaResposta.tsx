@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Flex } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
+import { PerguntaResposta } from '../../interfaces/models/PerguntaResposta.interface';
 
 
-interface Pergunta {
-    id: number;
-    pergunta: string;
-    resposta: string;
-}
 
-export const PerguntaResposta = ({ perguntas = [] }: { perguntas?: Pergunta[] }) => {
+export const VwPerguntaResposta = ({ perguntas = [] }: { perguntas?: PerguntaResposta[] }) => {
 
     const [value] = useState<string>('horizontal');
-    const [lista, setperguntas] = useState<Pergunta[]>(perguntas);
+    const [lista, setperguntas] = useState<PerguntaResposta[]>(perguntas);
 
     // Função para atualizar a pergunta
     const handleChangePergunta = (id: number, newPergunta: string) => {

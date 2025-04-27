@@ -1,13 +1,9 @@
 // src/api/perguntaRespostaApi.ts
 
+import { PerguntaResposta } from '../interfaces/models/PerguntaResposta.interface';
 import axiosInstance from './axiosInstance';
 
 // Tipos TypeScript para perguntas e respostas
-export interface PerguntaResposta {
-  id: number;
-  pergunta: string;
-  resposta: string;
-}
 
 // Função para buscar todas as perguntas e respostas
 export const getPerguntasRespostas = async (): Promise<PerguntaResposta[]> => {

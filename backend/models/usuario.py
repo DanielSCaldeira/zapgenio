@@ -1,11 +1,6 @@
-from models.empresa import Empresa
+from models import Base
 from sqlalchemy import Column, Integer, String, Text, Boolean, TIMESTAMP, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.sql import func
-
-class Base(DeclarativeBase):
-      pass
 
 class Usuario(Base):
     __tablename__ = 'usuarios'
@@ -18,5 +13,5 @@ class Usuario(Base):
     tipo_usuario = Column(String(20), default='comum')
     ativo = Column(Boolean, default=True)
     data_cadastro = Column(TIMESTAMP, server_default=func.now())
-
-    empresa = relationship(Empresa)
+    
+#     empresa = relationship('Empresa')

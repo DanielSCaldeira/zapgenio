@@ -1,9 +1,12 @@
 from pydantic import BaseModel
 
+from dto.pergunta_resposta_dto import PerguntaRespostaBase
+
 class ListaPerguntaBase(BaseModel):
-    titulo: str
-    empresa_id: int
-    perguntas_respostas: list[dict]  # Assuming perguntas_respostas is a list of dictionaries
+    nome_lista: str
+    descricao: str
+    id_empresa: int
+    perguntas_respostas: list[PerguntaRespostaBase]  # Assuming perguntas_respostas is a list of dictionaries
     
 
 class ListaPerguntaCreate(ListaPerguntaBase):
