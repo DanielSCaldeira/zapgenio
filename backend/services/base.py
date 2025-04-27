@@ -1,3 +1,4 @@
+from typing import Type
 from sqlalchemy.orm import Session
 
 class BaseService:

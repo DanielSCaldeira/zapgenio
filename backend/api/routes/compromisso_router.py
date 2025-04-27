@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database.connection import SessionLocal
 from dto.compromisso_dto import CompromissoCreate, CompromissoOut
-from models.compromisso import Compromisso
 from services.compromisso_service import CompromissoService
 
 router = APIRouter()

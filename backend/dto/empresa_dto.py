@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 class EmpresaBase(BaseModel):
+    id: int
     nome: str
     cnpj: str
 

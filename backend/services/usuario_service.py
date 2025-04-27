@@ -3,8 +3,12 @@ from sqlalchemy.orm import Session
 from models.usuario import Usuario
 
 class UsuarioService(BaseService):  # Corrigido: Use 'class' para definir uma classe
-    def __init__(self):
-        super().__init__(Usuario)
+    def __init__(self, db: Session):
+        super().__init__(Usuario)  # Passa a classe Empresa para a classe base
+        self.db = db 
+
+    def list(self):
+        return self.db.query(self.model).all()
 
     def get(self, db: Session, id_usuario: int):
         return db.query(self.model).filter(self.model.id_usuario == id_usuario).first()

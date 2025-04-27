@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database.connection import SessionLocal
 from dto.empresa_dto import EmpresaCreate, EmpresaOut
-from models.empresa import Empresa
 from services.empresa_service import EmpresaService
 
 router = APIRouter()
@@ -14,11 +13,12 @@ def get_db():
     finally:
         db.close()
 
+
 # Rota para listar todas as empresas (GET)
 @router.get("/", response_model=list[EmpresaOut])
 def list_empresas(db: Session = Depends(get_db)):
     service = EmpresaService(db)
-    empresas = service.list()
+    empresas = service.list()  # Aqui você chama o método list da EmpresaService
     return empresas
 
 # Rota para obter uma empresa específica (GET)

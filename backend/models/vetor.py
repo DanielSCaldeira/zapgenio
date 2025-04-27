@@ -5,8 +5,6 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 
-Base = declarative_base()
-
 class Vetor(Base):
     __tablename__ = 'vetores'
 

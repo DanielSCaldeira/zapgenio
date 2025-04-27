@@ -5,12 +5,11 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 
-Base = declarative_base()
 
 class ListaPergunta(Base):
     __tablename__ = 'listas_perguntas'
 
-    id_lista = Column(Integer, primary_key=True)
+    id = Column('id_lista',Integer, primary_key=True)
     id_empresa = Column(Integer, ForeignKey('empresas.id_empresa', ondelete='CASCADE'), nullable=False)
     nome_lista = Column(String(255))
     descricao = Column(Text)

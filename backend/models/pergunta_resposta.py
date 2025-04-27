@@ -5,9 +5,6 @@ from sqlalchemy.sql import func
 
 Base = declarative_base()
 
-Base = declarative_base()
-
-
 class PerguntaResposta(Base):
     __tablename__ = 'perguntas_respostas'
 

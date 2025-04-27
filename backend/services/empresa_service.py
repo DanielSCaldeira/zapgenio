@@ -4,8 +4,13 @@ from services.base import BaseService
 from sqlalchemy.orm import Session
 
 class EmpresaService(BaseService):
-    def __init__(self):
-        super().__init__(Empresa)
+    def __init__(self, db: Session):
+        super().__init__(Empresa)  # Passa a classe Empresa para a classe base
+        self.db = db 
+
+    def list(self):
+        return self.db.query(self.model).all()
+        # return self.list(self.db) 
 
     def get(self, db: Session, id_empresa: int):
         return db.query(self.model).filter(self.model.id_empresa == id_empresa).first()
