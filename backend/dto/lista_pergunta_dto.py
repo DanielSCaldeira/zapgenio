@@ -2,20 +2,20 @@ from pydantic import BaseModel
 
 from dto.pergunta_resposta_dto import PerguntaRespostaBase
 
-class ListaPerguntaBase(BaseModel):
+class ListaPerguntaRespostaBase(BaseModel):
     nome_lista: str
     descricao: str
     id_empresa: int
     perguntas_respostas: list[PerguntaRespostaBase]  # Assuming perguntas_respostas is a list of dictionaries
     
 
-class ListaPerguntaCreate(ListaPerguntaBase):
+class ListaPerguntaRespostaCreate(ListaPerguntaRespostaBase):
     pass
 
-class ListaPerguntaUpdate(ListaPerguntaBase):
+class ListaPerguntaRespostaUpdate(ListaPerguntaRespostaBase):
     pass
 
-class ListaPerguntaOut(ListaPerguntaBase):
+class ListaPerguntaRespostaOut(ListaPerguntaRespostaBase):
     id: int
 
     class Config:

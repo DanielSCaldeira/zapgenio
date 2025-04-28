@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 from database.connection import Base
-from models import compromisso, empresa, lista_pergunta, usuario, pergunta_resposta, vetor
+from models import *
 import os
 from dotenv import load_dotenv
 

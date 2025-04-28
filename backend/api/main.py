@@ -2,9 +2,8 @@
 import sys
 sys.path.append('C:/git/zapgenio/backend') 
 import uvicorn
-
 from fastapi import FastAPI
-from api.routes import compromisso_router, empresa_router, lista_pergunta_router, pergunta_resposta_router, usuario_router, vetor_router 
+from api.routes import compromisso_router, empresa_router, pergunta_resposta_router, usuario_router, vetor_router,lista_pergunta_resposta_router 
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -26,7 +25,7 @@ app.add_middleware(
 app.include_router(usuario_router.router, prefix="/usuarios", tags=["Usuarios"],  responses={404: {"description": "Not found"}})
 app.include_router(compromisso_router.router, prefix="/compromissos", tags=["Compromissos"])
 app.include_router(empresa_router.router, prefix="/empresas", tags=["Empresas"])
-app.include_router(lista_pergunta_router.router, prefix="/listas-perguntas", tags=["Listas de Perguntas"])
+app.include_router(lista_pergunta_resposta_router.router, prefix="/listas-perguntas-respostas", tags=["Listas de Perguntas"])
 app.include_router(pergunta_resposta_router.router, prefix="/perguntas-respostas", tags=["Perguntas e Respostas"])
 app.include_router(vetor_router.router, prefix="/vetores", tags=["Vetores"])
 

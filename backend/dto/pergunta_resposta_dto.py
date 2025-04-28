@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 class PerguntaRespostaBase(BaseModel):
+    id: int
     pergunta: str
     resposta: str
 

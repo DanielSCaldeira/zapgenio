@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs } from 'antd';
+import { Input, Tabs, Button, Space } from 'antd';
 import { AppleOutlined } from '@ant-design/icons';
 import { VwPerguntaResposta } from './components/PerguntaResposta/PerguntaResposta';
-import { getListasPerguntas } from './api/listaPerguntaService.ts ';
-import { ListaPergunta } from './interfaces/models/ListaPergunta.interface';
-
+import { getListasPerguntas } from './api/ListaPerguntaRespostaService.ts ';
+import { ListaPerguntaResposta } from './interfaces/models/ListaPerguntaResposta.interface';
 
 const App: React.FC = () => {
-  const [listaPerguntas, setListaPerguntas] = useState<ListaPergunta[]>([]); // Estado para armazenar as listas de perguntas
+  const [ListaPerguntaRespostas, setListaPerguntaRespostas] = useState<ListaPerguntaResposta[]>([]); // Estado para armazenar as listas de perguntas
 
-  const fetchListaPerguntas = async () => {
+  const fetchListaPerguntaRespostas = async () => {
     try {
-      if (!listaPerguntas.length) {
-        const data = await getListasPerguntas(); // Chama a função para obter as listas de perguntas
-        console.log(data); // Loga os dados recebidos
-        setListaPerguntas(data); // Atualiza o estado com os dados da API
+      if (!ListaPerguntaRespostas.length) {
+        let data = await getListasPerguntas();
+        data = data.map((item) => ({
+          ...item,
+          componente: <VwPerguntaResposta perguntas={item.perguntas_respostas} />
+        }));
+
+        const defaultItem: ListaPerguntaResposta = {
+          id: 1000000,
+          descricao: "Componente padrão",
+          componente_default: <>
+            <Space.Compact style={{ width: '100%' }}>
+              <Input defaultValue="Combine input and button" />
+              <Button type="primary">Submit</Button>
+            </Space.Compact>
+          </>,
+        };
+
+        data.push(defaultItem); // Adiciona uma nova lista vazia ao final da lista
+
+        setListaPerguntaRespostas(data); // Atualiza o estado com os dados da API
       }
     } catch (error) {
       console.error("Erro ao buscar listas de perguntas:", error);
@@ -23,24 +39,24 @@ const App: React.FC = () => {
 
   // Use useEffect para chamar a API quando o componente for montado
   useEffect(() => {
-    fetchListaPerguntas(); // Chama a função quando o componente é montado
+    fetchListaPerguntaRespostas(); // Chama a função quando o componente é montado
   }, []); // O array vazio faz com que a requisição aconteça apenas na montagem do componente
 
   return (
-      <Tabs
-        defaultActiveKey="1"
-        items={listaPerguntas.map((item) => {
-          const id = String(item.id);
-          return {
-            key: id,
-            label: `${item.nome_lista}`,
-            children: <>
-              <VwPerguntaResposta perguntas={item.perguntas_respostas} ></VwPerguntaResposta>
-            </>,
-            icon: <AppleOutlined />,
-          };
-        })}
-      />
+    <Tabs
+      defaultActiveKey="1"
+      items={ListaPerguntaRespostas?.map((item) => {
+        const id = String(item.id);
+        return {
+          key: id,
+          label: <>{item.nome_lista ?? item.componente_default}</>,
+          children: <>
+            {item.componente ?? item.descricao}
+          </>,
+          icon: <AppleOutlined />,
+        };
+      })}
+    />
   );
 };
 
