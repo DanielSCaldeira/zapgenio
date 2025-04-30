@@ -1,6 +1,6 @@
 
-from models.empresa import Empresa
-from services.base import BaseService
+from backend.models.empresa import Empresa
+from backend.services.base import BaseService
 from sqlalchemy.orm import Session
 
 class EmpresaService(BaseService):

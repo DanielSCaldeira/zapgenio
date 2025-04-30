@@ -1,55 +1,41 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from database.connection import SessionLocal
+from backend.dependencies.vetor_dependencies import get_vetor_service
 from dto.vetor_dto import VetorCreate, VetorOut
-from models.vetor import Vetor
-from services.vetor import VetorService
+from backend.services.vetor_service import VetorService
 
-router =APIRouter()
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+router = APIRouter()
 
 # Rota para listar todos os vetores (GET)
 @router.get("/", response_model=list[VetorOut])
-def list_vetores(db: Session = Depends(get_db)):
-    service = VetorService(db)
+def list_vetores(service: VetorService = Depends(get_vetor_service)):
     vetores = service.list()
     return vetores
 
 # Rota para obter um vetor específico (GET)
-@router.get("/{id_vetor}", response_model=VetorOut)
-def get_vetor(id_vetor: int, db: Session = Depends(get_db)):
-    service = VetorService(db)
-    vetor = service.get(id_vetor)
+@router.get("/{id}", response_model=VetorOut)
+def get_vetor(id: int, service: VetorService = Depends(get_vetor_service)):
+    vetor = service.get(id)
     if vetor is None:
         raise HTTPException(status_code=404, detail="Vetor não encontrado")
     return vetor
 
 # Rota para criar um novo vetor (POST)
 @router.post("/", response_model=VetorOut)
-def create_vetor(vetor: VetorCreate, db: Session = Depends(get_db)):
-    service = VetorService(db)
+def create_vetor(vetor: VetorCreate, service: VetorService = Depends(get_vetor_service)):
     return service.create(vetor)
 
 # Rota para atualizar um vetor (PUT)
-@router.put("/{id_vetor}", response_model=VetorOut)
-def update_vetor(id_vetor: int, vetor_in: dict, db: Session = Depends(get_db)):
-    service = VetorService(db)
-    updated_vetor = service.update(id_vetor, vetor_in)
+@router.put("/{id}", response_model=VetorOut)
+def update_vetor(id: int, vetor_in: dict, service: VetorService = Depends(get_vetor_service)):
+    updated_vetor = service.update(id, vetor_in)
     if updated_vetor is None:
         raise HTTPException(status_code=404, detail="Vetor não encontrado")
     return updated_vetor
 
 # Rota para excluir um vetor (DELETE)
-@router.delete("/{id_vetor}", response_model=VetorOut)
-def delete_vetor(id_vetor: int, db: Session = Depends(get_db)):
-    service = VetorService(db)
-    deleted_vetor = service.delete(id_vetor)
+@router.delete("/{id}", response_model=VetorOut)
+def delete_vetor(id: int, service: VetorService = Depends(get_vetor_service)):
+    deleted_vetor = service.delete(id)
     if deleted_vetor is None:
         raise HTTPException(status_code=404, detail="Vetor não encontrado")
     return deleted_vetor

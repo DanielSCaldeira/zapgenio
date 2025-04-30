@@ -2,119 +2,36 @@
 
 ## Resumo da Aplicação
 
-Za Genio é um sistema web completo que integra um backend em Python (API REST), frontend em ReactJS com TailwindCSS e a inteligência da OpenAI para automatizar respostas via WhatsApp. A plataforma permite que clientes (empresas) cadastrem listas de perguntas e respostas, agendem compromissos e consultem históricos de vetores com controle de versões, tudo isso com um sistema de gestão de usuários e permissões por empresa.
+Zap Genio é um sistema web completo que integra um backend em Python (API REST), frontend em ReactJS com TailwindCSS e a inteligência da OpenAI para automatizar respostas via WhatsApp. A plataforma permite que clientes (empresas) cadastrem listas de perguntas e respostas, agendem compromissos e consultem históricos de vetores com controle de versões, tudo isso com um sistema de gestão de usuários e permissões por empresa.
 
 ## Módulos Principais
 
-1.  **Empresas e Usuários:**
-    * Controle de login, permissões e gestão de dados por empresa.
-    * Permite que cada empresa (cliente) tenha múltiplos usuários.
+1. **Empresas e Usuários**:
+   - Controle de login, permissões e gestão de dados por empresa.
+   - Permite que cada empresa (cliente) tenha múltiplos usuários.
 
-2.  **Listas de Perguntas e Respostas:**
-    * Cada lista possui um ID único e é vinculada a uma empresa.
-    * As perguntas e respostas são organizadas por lista.
-    * Suporte a múltiplas listas por empresa.
+2. **Listas de Perguntas e Respostas**:
+   - Cada lista possui um ID único e é vinculada a uma empresa.
+   - As perguntas e respostas são organizadas por lista.
+   - Suporte a múltiplas listas por empresa.
 
-3.  **Vetorização:**
-    * Histórico de vetores gerados ao longo do tempo para cada lista.
-    * Indicação do vetor ativo para cálculo de similaridade.
+3. **Vetorização**:
+   - Histórico de vetores gerados ao longo do tempo para cada lista.
+   - Indicação do vetor ativo para cálculo de similaridade.
 
-4.  **Integração com WhatsApp:**
-    * Comparação de mensagens recebidas com vetores ativos para respostas diretas.
-    * Integração com ChatGPT para perguntas sem correspondência exata, utilizando um prompt personalizado.
+4. **Integração com WhatsApp**:
+   - Comparação de mensagens recebidas com vetores ativos para respostas diretas.
+   - Integração com ChatGPT para perguntas sem correspondência exata, utilizando um prompt personalizado.
 
-5.  **Agenda e Compromissos:**
-    * Criação de eventos por usuários.
-    * Geração de arquivo `.ics` para cada compromisso.
-    * Salvamento de dados na tabela de compromissos.
-    * Link para adicionar o compromisso em agendas pessoais (Google Agenda, Outlook, etc.).
+5. **Agenda e Compromissos**:
+   - Criação de eventos por usuários.
+   - Geração de arquivo `.ics` para cada compromisso.
+   - Salvamento de dados na tabela de compromissos.
+   - Link para adicionar o compromisso em agendas pessoais (Google Agenda, Outlook, etc.).
 
-6.  **Interface Web:**
-    * Tela única para visualização, adição, edição e exclusão de perguntas e respostas.
-    * Botão para reprocessar vetores e armazenar novas versões.
-
-## Modelagem de Dados (SQL)
-
-```sql
-CREATE EXTENSION vector;
-
--- Tabela de empresas
-CREATE TABLE empresas (
-    id_empresa SERIAL PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
-    cnpj VARCHAR(20),
-    email_contato VARCHAR(255),
-    telefone VARCHAR(20),
-    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-
-CREATE TABLE usuarios (
-    id_usuario SERIAL PRIMARY KEY,
-    id_empresa INT REFERENCES empresas(id_empresa),
-    nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    senha_hash TEXT NOT NULL,
-    tipo_usuario VARCHAR(20) DEFAULT 'comum',
-    ativo BOOLEAN DEFAULT TRUE,
-    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
--- Tabela de listas de perguntas e respostas
-CREATE TABLE listas_perguntas_respostas (
-    id_lista_pergunta_resposta SERIAL PRIMARY KEY,
-    id_empresa INT REFERENCES empresas(id_empresa),
-    nome_lista VARCHAR(255),
-    descricao TEXT,
-    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Tabela de perguntas e respostas
-CREATE TABLE perguntas_respostas (
-    id_pergunta_resposta SERIAL PRIMARY KEY,
-    id_lista_pergunta_resposta INT REFERENCES listas_perguntas_respostas(id_lista_pergunta_resposta), 
-    pergunta TEXT NOT NULL,
-    resposta TEXT NOT NULL,
-    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ativo BOOLEAN DEFAULT FALSE
-);
-
--- Tabela de vetores
-CREATE TABLE vetores (
-    id_vetor SERIAL PRIMARY KEY,
-    id_pergunta_resposta INT REFERENCES perguntas_respostas(id_pergunta_resposta) ON DELETE CASCADE,  
-    vetor vector(1536) NOT NULL,  -- Usando o tipo "vector" da extensão instalada
-    data_geracao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ativo BOOLEAN DEFAULT FALSE
-);
-
--- Índices para otimizar consultas
-CREATE INDEX idx_perguntas_respostas_id_lista_pergunta_resposta ON perguntas_respostas(id_lista_pergunta_resposta);
-CREATE INDEX idx_listas_perguntas_respostas_id_empresa ON listas_perguntas_respostas(id_empresa);
-CREATE INDEX vetores_idx ON vetores USING ivfflat (vetor);
-
--- Tabela de compromissos
-CREATE TABLE compromissos (
-    id_compromisso SERIAL PRIMARY KEY,
-    id_empresa INT REFERENCES empresas(id_empresa),
-    titulo VARCHAR(255),
-    descricao TEXT,
-    data_inicio TIMESTAMP,
-    data_fim TIMESTAMP,
-    arquivo_ics TEXT,  -- base64 ou caminho do arquivo
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-# Zap Genio
-
-## Resumo da Aplicação
-
-Zap Genio é um sistema web completo que integra um backend em Python (API REST), frontend em ReactJS com TailwindCSS e a inteligência da OpenAI para automatizar respostas via WhatsApp.
+6. **Interface Web**:
+   - Tela única para visualização, adição, edição e exclusão de perguntas e respostas.
+   - Botão para reprocessar vetores e armazenar novas versões.
 
 ## Pré-requisitos
 
@@ -125,10 +42,7 @@ Certifique-se de ter os seguintes softwares instalados no seu ambiente:
 - [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
 - [Python](https://www.python.org/) (versão 3.10 ou superior)
 - [Poetry](https://python-poetry.org/) (opcional, para gerenciar dependências Python)
-- [docker](https://docs.docker.com/desktop/setup/install/windows-install/)(docker)
-- [pgvector-postgresql](https://github.com/pgvector/pgvector)(vector)
-
-https://github.com/timescale/pgai
+- [pgvector-postgresql](https://github.com/pgvector/pgvector)
 
 ## Configuração do Backend
 
@@ -181,51 +95,36 @@ https://github.com/timescale/pgai
 3. **Acessar a aplicação**:
    - O frontend estará disponível em `http://localhost:5173`.
 
-## Executar o Projeto Completo
+## Configuração do `pgvector`
 
-1. **Com Docker**:
-   - Use o comando:
-     ```bash
-     cd backend
-     docker-compose up
-     ```
+1. **Baixar e compilar o `pgvector`**:
+   ```bash
+   call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+   set "PGROOT=C:\Program Files\PostgreSQL\16"
+   cd %TEMP%
+   git clone --branch v0.8.0 https://github.com/pgvector/pgvector.git
+   cd pgvector
+   nmake /F Makefile.win
+   nmake /F Makefile.win install
+   ```
 
-2. **Sem Docker**:
-   - Inicie o backend:
-     ```bash
-     cd backend
-     uvicorn api.main:app --reload
-     ```
-   - Em outra aba do terminal, inicie o frontend:
-     ```bash
-     cd frontend
-     npm run dev
-     ```
+2. **Verificar instalação no PostgreSQL**:
+   ```sql
+   SELECT * FROM pg_extension WHERE extname = 'vector';
+   ```
 
-cd %TEMP%
-git clone --branch v0.8.0 https://github.com/pgvector/pgvector.git
-cd pgvector
-set "PGROOT=C:\Program Files\PostgreSQL\17"
-nmake /F Makefile.win
-
-Executar no console
-
-call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
-set "PGROOT=C:\Program Files\PostgreSQL\16"
-cd %TEMP%
-git clone --branch v0.8.0 https://github.com/pgvector/pgvector.git
-cd pgvector
-nmake /F Makefile.win
-nmake /F Makefile.win install
-
-SELECT * FROM pg_extension WHERE extname = 'vector';
-ROLLBACK;
-CREATE EXTENSION vector;
-
+3. **Criar extensão no banco de dados**:
+   ```sql
+   CREATE EXTENSION vector;
+   ```
 
 ## Testando a API
 
-- Acesse a documentação interativa da API em `http://localhost:8000/docs`.
+- Acesse a documentação interativa da API no **Swagger UI**:
+  - [http://localhost:8000/docs](http://localhost:8000/docs)
+  
+- Acesse a documentação alternativa no **ReDoc**:
+  - [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ## Estrutura do Projeto
 

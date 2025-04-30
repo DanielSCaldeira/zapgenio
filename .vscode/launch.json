@@ -1,14 +1,30 @@
 {
     "configurations": [
-      {
-        "type": "debugpy",
-        "request": "launch",
-        "name": "Launch FastAPI Backend",
-        "program": "${workspaceFolder}/backend/api/main.py",
-        "args": [
-          "--reload"
-        ],
-        "envFile": "${workspaceFolder}/backend/.env"
-      }
+        {
+            "type": "debugpy",
+            "request": "launch",
+            "name": "API",
+            "program": "${workspaceFolder}/backend/api/main.py",
+            "args": [
+                "--reload"
+            ],
+            "envFile": "${workspaceFolder}/backend/.env",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "type": "debugpy",
+            "request": "launch",
+            "name": "Teste ",
+            "program": "${workspaceFolder}/backend/teste/main.py",
+            "args": [
+                "--reload"
+            ],
+            "envFile": "${workspaceFolder}/backend/.env",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        }
     ]
-  }
+}

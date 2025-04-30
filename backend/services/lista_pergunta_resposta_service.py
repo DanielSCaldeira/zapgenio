@@ -1,6 +1,6 @@
 
-from models.lista_pergunta_resposta import ListaPerguntaResposta
-from services.base import BaseService
+from backend.models.lista_pergunta_resposta import ListaPerguntaResposta
+from backend.services.base import BaseService
 from sqlalchemy.orm import Session
 
 class ListaPerguntaRespostaService(BaseService):

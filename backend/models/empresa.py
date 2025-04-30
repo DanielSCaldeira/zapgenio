@@ -1,9 +1,8 @@
-from models import Base
+from backend.models import Base
 from sqlalchemy import Column, Integer, String, TIMESTAMP
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from sqlalchemy.orm import Mapped
-from typing import List
+
 
 
 class Empresa(Base):

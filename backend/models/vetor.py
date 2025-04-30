@@ -1,8 +1,7 @@
-from models import Base
+from backend.models import Base
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import Column, Integer, Boolean, TIMESTAMP, ForeignKey
 from sqlalchemy.sql import func
-
 
 class Vetor(Base):
     __tablename__ = 'vetores'

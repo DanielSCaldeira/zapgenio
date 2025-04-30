@@ -1,6 +1,6 @@
-from services.base import BaseService
+from backend.services.base import BaseService
 from sqlalchemy.orm import Session
-from models.usuario import Usuario
+from backend.models.usuario import Usuario
 
 class UsuarioService(BaseService):
     

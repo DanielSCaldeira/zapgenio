@@ -1,54 +1,41 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from database.connection import SessionLocal
+from backend.dependencies.compromisso_dependencies import get_compromisso_service
 from dto.compromisso_dto import CompromissoCreate, CompromissoOut
 from services.compromisso_service import CompromissoService
 
 router = APIRouter()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 # Rota para listar todos os compromissos (GET)
 @router.get("/", response_model=list[CompromissoOut])
-def list_compromissos(db: Session = Depends(get_db)):
-    service = CompromissoService(db)
+def list_compromissos(service: CompromissoService = Depends(get_compromisso_service)):
     compromissos = service.list()
     return compromissos
 
 # Rota para obter um compromisso específico (GET)
-@router.get("/{id_compromisso}", response_model=CompromissoOut)
-def get_compromisso(id_compromisso: int, db: Session = Depends(get_db)):
-    service = CompromissoService(db)
-    compromisso = service.get(id_compromisso)
+@router.get("/{id}", response_model=CompromissoOut)
+def get_compromisso(id: int, service: CompromissoService = Depends(get_compromisso_service)):
+    compromisso = service.get(id)
     if compromisso is None:
         raise HTTPException(status_code=404, detail="Compromisso não encontrado")
     return compromisso
 
 # Rota para criar um novo compromisso (POST)
 @router.post("/", response_model=CompromissoOut)
-def create_compromisso(compromisso: CompromissoCreate, db: Session = Depends(get_db)):
-    service = CompromissoService(db)
+def create_compromisso(compromisso: CompromissoCreate, service: CompromissoService = Depends(get_compromisso_service)):
     return service.create(compromisso)
 
 # Rota para atualizar um compromisso (PUT)
-@router.put("/{id_compromisso}", response_model=CompromissoOut)
-def update_compromisso(id_compromisso: int, compromisso_in: dict, db: Session = Depends(get_db)):
-    service = CompromissoService(db)
-    updated_compromisso = service.update(id_compromisso, compromisso_in)
+@router.put("/{id}", response_model=CompromissoOut)
+def update_compromisso(id: int, compromisso_in: dict, service: CompromissoService = Depends(get_compromisso_service)):
+    updated_compromisso = service.update(id, compromisso_in)
     if updated_compromisso is None:
         raise HTTPException(status_code=404, detail="Compromisso não encontrado")
     return updated_compromisso
 
 # Rota para excluir um compromisso (DELETE)
-@router.delete("/{id_compromisso}", response_model=CompromissoOut)
-def delete_compromisso(id_compromisso: int, db: Session = Depends(get_db)):
-    service = CompromissoService(db)
-    deleted_compromisso = service.delete(id_compromisso)
+@router.delete("/{id}", response_model=CompromissoOut)
+def delete_compromisso(id: int, service: CompromissoService = Depends(get_compromisso_service)):
+    deleted_compromisso = service.delete(id)
     if deleted_compromisso is None:
         raise HTTPException(status_code=404, detail="Compromisso não encontrado")
     return deleted_compromisso

@@ -1,5 +1,5 @@
-from models.pergunta_resposta import PerguntaResposta
-from services.base import BaseService
+from backend.models.pergunta_resposta import PerguntaResposta
+from backend.services.base import BaseService
 from sqlalchemy.orm import Session
 
 class PerguntaRespostaService(BaseService):

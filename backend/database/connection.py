@@ -4,21 +4,33 @@ from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
 
-# Carrega o .env
+# Carrega o arquivo .env para acessar as variáveis de ambiente
 load_dotenv()
-database_url = os.getenv('DATABASE_URL')
 
-if not database_url:
-    raise ValueError("A variável de ambiente DATABASE_URL não foi definida.")
+def get_database_url():
+    """
+    Obtém a URL do banco de dados a partir das variáveis de ambiente.
+    Caso a variável DATABASE_URL não seja encontrada, levanta um erro.
+    """
+    database_url = os.getenv('DATABASE_URL')
+    if not database_url:
+        raise ValueError("A variável de ambiente DATABASE_URL não foi definida.")
+    return database_url
 
-print(f"Conectando ao banco de dados em: {database_url}")
+# Cria a engine de conexão com o banco de dados
+engine = create_engine(get_database_url())
 
-engine = create_engine(database_url)
+# Cria uma fábrica de sessões
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Classe base para os modelos (todas as classes que representam tabelas herdarão dessa)
 Base = declarative_base()
-from models import *
 
 def get_db():
+    """
+    Função auxiliar para fornecer uma sessão de banco de dados para as rotas do FastAPI.
+    Utiliza dependências para gerenciar o ciclo de vida da sessão.
+    """
     db = SessionLocal()
     try:
         yield db
