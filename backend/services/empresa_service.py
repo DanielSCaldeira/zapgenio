@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 class EmpresaService(BaseService):
     def __init__(self, db: AsyncSession):
-        super().__init__(Empresa)  # Passa a classe Empresa para a classe base
+        super().__init__(Empresa, db)  # Passa a classe Empresa para a classe base
         self.db = db 
 
 

@@ -4,7 +4,7 @@ from backend.models.usuario import Usuario
 
 class UsuarioService(BaseService):    
     def __init__(self, db: AsyncSession):
-        super().__init__(Usuario) 
+        super().__init__(Usuario, db) 
         self.db = db 
 
   

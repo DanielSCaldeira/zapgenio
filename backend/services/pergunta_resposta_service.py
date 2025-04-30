@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 class PerguntaRespostaService(BaseService):
     def __init__(self, db: AsyncSession):
-        super().__init__(PerguntaResposta)
+        super().__init__(PerguntaResposta, db)
         self.db = db 
     
    

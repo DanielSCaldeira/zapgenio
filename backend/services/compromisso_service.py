@@ -5,6 +5,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 class CompromissoService(BaseService):
     def __init__(self, db: AsyncSession):
-        super().__init__(Compromisso)
+        super().__init__(Compromisso, db)
         self.db = db 
     

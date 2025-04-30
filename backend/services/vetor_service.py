@@ -12,7 +12,7 @@ load_dotenv()
 
 class VetorService(BaseService):
     def __init__(self, db: AsyncSession):
-        super().__init__(Vetor)
+        super().__init__(Vetor, db)
         self.db = db 
 
     def vetorizar_pergunta_resposta(self, pergunta_resposta: PerguntaResposta):

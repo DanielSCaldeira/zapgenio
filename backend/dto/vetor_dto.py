@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import List
 
 class VetorBase(BaseModel):
-    pergunta_resposta_id: int
+    id_pergunta_resposta: int
     vetor: List[float]
 
 class VetorCreate(VetorBase):

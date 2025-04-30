@@ -13,14 +13,14 @@ def get_database_url():
     """
     database_url = os.getenv('DATABASE_URL')
     if not database_url:
-        raise ValueError("A variável de ambiente DATABASE_URL não foi async definida.")
+        raise ValueError("A variável de ambiente DATABASE_URL não foi definida.")
     return database_url
 
 # Cria a engine de conexão com o banco de dados
 engine = create_async_engine(get_database_url(), echo=True)
 
 # Cria uma fábrica de sessões
-AsyncAsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 # Classe base para os modelos (todas as classes que representam tabelas herdarão dessa)
 Base = declarative_base()
@@ -28,8 +28,8 @@ Base = declarative_base()
 
 async def get_db():
     """
-Função auxiliar para fornecer uma sessão de banco de dados para as rotas do FastAPI.
-Utiliza dependências para gerenciar o ciclo de vida da sessão.
-"""
-    async with AsyncAsyncSessionLocal() as AsyncSession:
-        yield AsyncSession
+    Função auxiliar para fornecer uma sessão de banco de dados para as rotas do FastAPI.
+    Utiliza dependências para gerenciar o ciclo de vida da sessão.
+    """
+    async with AsyncSessionLocal() as session:
+        yield session

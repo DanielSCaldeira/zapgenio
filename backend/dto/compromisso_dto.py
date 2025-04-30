@@ -4,8 +4,10 @@ from datetime import datetime
 class CompromissoBase(BaseModel):
     titulo: str
     descricao: str
-    data: datetime
-    empresa_id: int
+    data_inicio: datetime
+    data_fim: datetime
+    id_empresa: int
+    arquivo_ics: str
 
 class CompromissoCreate(CompromissoBase):
     pass
