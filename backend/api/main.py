@@ -1,9 +1,6 @@
-# api/main.py
-import sys
-sys.path.append('C:/git/zapgenio/backend') 
 import uvicorn
 from fastapi import FastAPI
-from api.routes import compromisso_router, empresa_router, pergunta_resposta_router, usuario_router, vetor_router,lista_pergunta_resposta_router 
+from backend.api.routes import compromisso_router, empresa_router, pergunta_resposta_router, usuario_router, vetor_router,lista_pergunta_resposta_router 
 from fastapi.middleware.cors import CORSMiddleware
 
 

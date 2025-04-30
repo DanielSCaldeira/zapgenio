@@ -5,12 +5,12 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from backend.models import initialize_sql  # Ajuste aqui
-from backend.database.connection import SessionLocal
+from backend.database.connection import AsyncSessionLocal
 from backend.models.pergunta_resposta import PerguntaResposta
 from backend.services.vetor_service import VetorService
 
 def main():
-    with SessionLocal() as db:
+    with AsyncSessionLocal() as db:
         id = 1  # Substitua pelo ID real que deseja buscar
         pergunta_resposta = db.get(PerguntaResposta, id)
         if pergunta_resposta:

@@ -3,8 +3,6 @@ from sqlalchemy import Column, Integer, String, TIMESTAMP
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
-
-
 class Empresa(Base):
     __tablename__ = 'empresas'
 

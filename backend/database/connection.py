@@ -1,6 +1,5 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 from dotenv import load_dotenv
 
@@ -14,25 +13,23 @@ def get_database_url():
     """
     database_url = os.getenv('DATABASE_URL')
     if not database_url:
-        raise ValueError("A variável de ambiente DATABASE_URL não foi definida.")
+        raise ValueError("A variável de ambiente DATABASE_URL não foi async definida.")
     return database_url
 
 # Cria a engine de conexão com o banco de dados
-engine = create_engine(get_database_url())
+engine = create_async_engine(get_database_url(), echo=True)
 
 # Cria uma fábrica de sessões
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+AsyncAsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 # Classe base para os modelos (todas as classes que representam tabelas herdarão dessa)
 Base = declarative_base()
 
-def get_db():
+
+async def get_db():
     """
-    Função auxiliar para fornecer uma sessão de banco de dados para as rotas do FastAPI.
-    Utiliza dependências para gerenciar o ciclo de vida da sessão.
-    """
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+Função auxiliar para fornecer uma sessão de banco de dados para as rotas do FastAPI.
+Utiliza dependências para gerenciar o ciclo de vida da sessão.
+"""
+    async with AsyncAsyncSessionLocal() as AsyncSession:
+        yield AsyncSession

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from dto.pergunta_resposta_dto import PerguntaRespostaBase
+from backend.dto.pergunta_resposta_dto import PerguntaRespostaBase
 
 class ListaPerguntaRespostaBase(BaseModel):
     nome_lista: str

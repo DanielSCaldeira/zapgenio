@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-
-from dto.usuario_dto import UsuarioBase
+from backend.dto.usuario_dto import UsuarioBase
 
 class EmpresaBase(BaseModel):
     id: int
