@@ -44,6 +44,7 @@ Certifique-se de ter os seguintes softwares instalados no seu ambiente:
 - [Poetry](https://python-poetry.org/) (opcional, para gerenciar dependências Python)
 - [pgvector-postgresql](https://github.com/pgvector/pgvector)
 
+
 ## Configuração do Backend
 
 1. **Configurar variáveis de ambiente**:
