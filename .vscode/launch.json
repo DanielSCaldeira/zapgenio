@@ -6,24 +6,24 @@
             "name": "API",
             "program": "${workspaceFolder}/backend/api/main.py",
             "args": [
-                "--reload"
+                "-m", "uvicorn", "backend.api.main:app", "--reload"
             ],
             "envFile": "${workspaceFolder}/backend/.env",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}"
+                "PYTHONPATH": "${workspaceFolder};${workspaceFolder}/backend"
             }
         },
         {
             "type": "debugpy",
             "request": "launch",
-            "name": "Teste ",
+            "name": "Teste",
             "program": "${workspaceFolder}/backend/teste/main.py",
             "args": [
                 "--reload"
             ],
             "envFile": "${workspaceFolder}/backend/.env",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}"
+                "PYTHONPATH": "${workspaceFolder};${workspaceFolder}/backend"
             }
         }
     ]
