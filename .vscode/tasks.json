@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start LocalTunnel",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "backend/localtunnel_run.py"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

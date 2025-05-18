@@ -10,7 +10,7 @@ router = APIRouter()
 WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 # Defina os dados necessários
-PHONE_NUMBER_ID = "5561995948398"
+PHONE_NUMBER_ID = "102839283923823"
 # Rota para listar todos os compromissos (GET)
 @router.get("/")
 async def verify(request: Request):
@@ -59,4 +59,7 @@ async def send_message(destinatario: str, mensagem: str):
     if response.status_code == 200:
         return {"status": "success", "message": "Mensagem enviada com sucesso!"}
     else:
-        raise HTTPException(status_code=response.status_code, detail="Erro ao enviar mensagem")
+        raise HTTPException(status_code=response.status_code,  detail={
+            "message": "Erro ao enviar mensagem",
+            "whatsapp_response": response.text
+        })
