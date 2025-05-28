@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Input, Tabs, Button, Space } from 'antd';
 import { AppleOutlined } from '@ant-design/icons';
 import { VwPerguntaResposta } from './components/PerguntaResposta/PerguntaResposta';
-import { getListasPerguntas } from './api/ListaPerguntaRespostaService.ts ';
-import { ListaPerguntaResposta } from './interfaces/models/ListaPerguntaResposta.interface';
+import { getListasPerguntas } from './api/listaPerguntaService.ts '
+import { ListaPerguntaResposta } from './interfaces/models/ListaPergunta.interface';
 
 const App: React.FC = () => {
   const [ListaPerguntaRespostas, setListaPerguntaRespostas] = useState<ListaPerguntaResposta[]>([]); // Estado para armazenar as listas de perguntas

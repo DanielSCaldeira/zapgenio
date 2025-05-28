@@ -133,6 +133,7 @@ CREATE TABLE IF NOT EXISTS public.compromissos
     data_fim timestamp without time zone,
     arquivo_ics text COLLATE pg_catalog."default",
     criado_em timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    baixado BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT compromissos_pkey PRIMARY KEY (id_compromisso),
     CONSTRAINT compromissos_id_empresa_fkey FOREIGN KEY (id_empresa)
         REFERENCES public.empresas (id_empresa) MATCH SIMPLE

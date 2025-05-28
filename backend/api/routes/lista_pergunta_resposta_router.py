@@ -3,12 +3,12 @@ from backend.dependencies.lista_pergunta_resposta_dependencies import get_lista_
 from backend.dto.lista_pergunta_dto import ListaPerguntaRespostaCreate, ListaPerguntaRespostaOut
 from backend.services.lista_pergunta_resposta_service import ListaPerguntaRespostaService
 
-router =APIRouter()
+router = APIRouter()
 
 # Rota para listar todas as listas de perguntas (GET)
 @router.get("/", response_model=list[ListaPerguntaRespostaOut])
 async def list_listas_perguntas(service: ListaPerguntaRespostaService = Depends(get_lista_pergunta_resposta_service)):
-    listas_perguntas = await service.list()
+    listas_perguntas = await service.list(True)
     return listas_perguntas
 
 # Rota para obter uma lista de perguntas específica (GET)

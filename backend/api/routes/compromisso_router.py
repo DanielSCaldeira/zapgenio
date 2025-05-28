@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from backend.dependencies.compromisso_dependencies import get_compromisso_service
 from backend.dto.compromisso_dto import CompromissoCreate, CompromissoOut
 from backend.services.compromisso_service import CompromissoService
@@ -39,3 +39,16 @@ async def delete_compromisso(id: int, service: CompromissoService = Depends(get_
     if deleted_compromisso is None:
         raise HTTPException(status_code=404, detail="Compromisso não encontrado")
     return deleted_compromisso
+
+@router.get("/{id}/ics")
+async def baixar_ics(id: int, service: CompromissoService = Depends(get_compromisso_service)):
+    arquivo_ics = await service.buscarCompromisso(id)
+    
+    if not arquivo_ics:
+        raise HTTPException(status_code=404, detail="Arquivo ICS não encontrado")
+
+    return Response(
+        content=arquivo_ics,
+        media_type="text/calendar",
+        headers={"Content-Disposition": f"attachment; filename=compromisso_{id}.ics"}
+    )

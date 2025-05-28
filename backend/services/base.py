@@ -1,14 +1,29 @@
-from typing import Type
+from typing import Type, List
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.orm import selectinload, RelationshipProperty, class_mapper
 
 class BaseService:
     def __init__(self, model, db: AsyncSession):
         self.model = model
         self.db = db
 
-    async def list(self):
-        result = await self.db.execute(select(self.model))
+    def _get_all_relationship_options(self) -> List:
+        """
+        Retorna lista de opções selectinload para todos os relacionamentos do modelo.
+        """
+        mapper = class_mapper(self.model)
+        options = []
+        for prop in mapper.relationships:
+            options.append(selectinload(getattr(self.model, prop.key)))
+        return options
+
+    async def list(self, load_all_relations: bool = False):
+        stmt = select(self.model)
+        if load_all_relations:
+            options = self._get_all_relationship_options()
+            stmt = stmt.options(*options)
+        result = await self.db.execute(stmt)
         return result.scalars().all()
 
     async def create(self, obj_in: dict):
