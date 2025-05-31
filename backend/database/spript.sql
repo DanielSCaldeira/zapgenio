@@ -191,3 +191,31 @@ CREATE TABLE trecho_pergunta_resposta (
     ON DELETE CASCADE,
   PRIMARY KEY (id_trecho, id_pergunta_resposta)
 );
+
+-- Tabela etapa
+CREATE TABLE etapa (
+    id SERIAL PRIMARY KEY,
+    id_empresa INTEGER NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT,
+    CONSTRAINT fk_empresa_etapa FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa) ON DELETE CASCADE
+);
+
+-- Tabela botoes_etapas
+CREATE TABLE botoes_etapas (
+    id SERIAL PRIMARY KEY,
+    id_etapa INTEGER NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_etapa_botoes FOREIGN KEY (id_etapa) REFERENCES etapa (id) ON DELETE CASCADE
+);
+
+-- Tabela etapa_seguinte
+CREATE TABLE etapa_seguinte (
+    id SERIAL PRIMARY KEY,
+    id_etapa INTEGER NOT NULL,
+    id_botao INTEGER NOT NULL,
+    id_etapa_seguinte INTEGER NOT NULL,
+    CONSTRAINT fk_etapa_seguinte_etapa FOREIGN KEY (id_etapa) REFERENCES etapa (id) ON DELETE CASCADE,
+    CONSTRAINT fk_etapa_seguinte_botao FOREIGN KEY (id_botao) REFERENCES botoes_etapas (id) ON DELETE CASCADE,
+    CONSTRAINT fk_etapa_seguinte_etapa_seguinte FOREIGN KEY (id_etapa_seguinte) REFERENCES etapa (id) ON DELETE CASCADE
+);
